@@ -1,11 +1,35 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '../styles/Home.module.css'
+"use client";
 
-const inter = Inter({ subsets: ['latin'] })
+import Head from "next/head";
+import { Inter } from "@next/font/google";
+import { FormEvent, useState } from "react";
+import axios from "axios";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [studyTime, setStudyTime] = useState("");
+  const [freeTime, setFreeTime] = useState("")
+  const [travelTime, setTravelTime] = useState("")
+  const [health, setHealth] = useState("")
+  const [walc, setWalc] = useState("")
+
+
+  const studyTimeCategories = ["Less than 2 hours", "2 to 5 hours", "5 to 10 hours", "More than 10 hours"];
+  const freeTimeCategories = ["Less than 1 hour", "From 1 to 3 hours", "From 3 to 5 hours", "From 5 to 7 hours", "More than 7 hours"];
+  const travelTimeCategories = ["Less than 15 minutes", "From 15 to 30 minutes", "From 30 minutes to 1 hour", "More than 1 hour"];
+  const healthCategories = ["Under tight medical monitoring", "Under a one week doctor visit mandate", "Under a self-monitored medication", "Healthy but unfit", "Healthy and fit"];
+  const weekendAlcoholCategories = ["No alcohol", "1 to 3 shots", "3 to 5 shots", "5 to 8 shots", "More than 8 shots"];
+
+
+  function submitData(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    axios.post("http://127.0.0.1:8000/regress", { studyTime, freeTime, travelTime, health, walc })
+      .then((res) => {
+        console.log("The response is ", res);
+      })
+  }
+
   return (
     <>
       <Head>
@@ -14,110 +38,95 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
-        </div>
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
+      <div className="m-auto mt-[10vh] w-full max-w-md rounded-lg border border-gray-200 bg-white bg-gradient-to-r from-cyan-500 to-blue-500 p-4 shadow-md sm:p-6 md:p-8 mb-36 ">
+        <form
+          className="space-y-6"
+          onSubmit={(e) => submitData(e)}
+        >
+          <h5 className="text-xl text-center font-bold underline text-white">
+            Predict your grade
+          </h5>
+
+          <RadioList
+            categories={studyTimeCategories}
+            title="studytime"
+            state={studyTime}
+            setStateFunc={setStudyTime} />
+
+          <RadioList
+            categories={freeTimeCategories}
+            title="freetime"
+            state={freeTime}
+            setStateFunc={setFreeTime}
           />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
 
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
+          <RadioList
+            categories={travelTimeCategories}
+            title="traveltime"
+            state={travelTime}
+            setStateFunc={setTravelTime}
+          />
 
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
+          <RadioList
+            categories={healthCategories}
+            title="health"
+            state={health}
+            setStateFunc={setHealth}
+          />
 
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
+          <RadioList
+            categories={weekendAlcoholCategories}
+            title="traveltime"
+            state={walc}
+            setStateFunc={setWalc}
+          />
+          <button
+            type="submit"
+            className="w-full hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 rounded-lg bg-gradient-to-r from-pink-500 to-yellow-500 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
           >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+            Submit
+          </button>
+        </form>
+      </div >
     </>
-  )
+  );
+}
+
+
+function RadioList(props: { categories: Array<String>, title: String, state: String, setStateFunc: Function }): JSX.Element {
+  const { categories, title, state, setStateFunc } = props;
+  return (
+    <>
+      <div>
+        <label
+          className="mb-2 block text-lg font-medium text-gray-900 dark:text-white"
+        >
+          How many hours do you study in a week? (excluding class time)
+        </label>
+        <fieldset>
+          {categories.map((category, index) => {
+            return (
+              <div className="mb-2 flex items-center" key={index}>
+                <input
+                  id={title + "-" + (index + 1).toString()}
+                  type="radio"
+                  value={title + "-" + (index + 1).toString()}
+                  name={`${title}-radio-` + (index + 1).toString()}
+                  checked={state === (index + 1).toString()}
+                  onChange={() => { setStateFunc((index + 1).toString()) }}
+                  className="h-4 w-4 bg-gray-100 text-blue-600  focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                />
+                <label
+                  htmlFor={title + "-radio" + (index + 1).toString()}
+                  className="ml-2 text-sm font-medium text-gray-900"
+                >
+                  {category}
+                </label>
+              </div>
+            )
+          })}
+        </fieldset>
+      </div>
+    </>)
 }
