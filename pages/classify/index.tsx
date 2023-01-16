@@ -8,23 +8,20 @@ import axios from "axios";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Classify() {
-    const [studyTime, setStudyTime] = useState("");
-    const [freeTime, setFreeTime] = useState("")
-    const [travelTime, setTravelTime] = useState("")
-    const [health, setHealth] = useState("")
     const [walc, setWalc] = useState("")
+    const [fedu, setFedu] = useState("")
+    const [absence, setAbsence] = useState(0)
+    const [g1, setG1] = useState(0)
+    const [g2, setG2] = useState(0)
 
 
-    const studyTimeCategories = ["Less than 2 hours", "2 to 5 hours", "5 to 10 hours", "More than 10 hours"];
-    const freeTimeCategories = ["Less than 1 hour", "From 1 to 3 hours", "From 3 to 5 hours", "From 5 to 7 hours", "More than 7 hours"];
-    const travelTimeCategories = ["Less than 15 minutes", "From 15 to 30 minutes", "From 30 minutes to 1 hour", "More than 1 hour"];
-    const healthCategories = ["Under tight medical monitoring", "Under a one week doctor visit mandate", "Under a self-monitored medication", "Healthy but unfit", "Healthy and fit"];
     const weekendAlcoholCategories = ["No alcohol", "1 to 3 shots", "3 to 5 shots", "5 to 8 shots", "More than 8 shots"];
+    const feduCategories = ["No education", "Primary school", "Lower secondary (6th to 9th grade)", "Higher secondary (10th to 12th grade)", "Higher education"]
 
 
     function submitData(e: FormEvent<HTMLFormElement>) {
         e.preventDefault()
-        axios.post("http://127.0.0.1:8000/regress", { studyTime, freeTime })
+        axios.post("http://127.0.0.1:8000/classify", { g1, g2, absence, walc, fedu })
             .then((res) => {
                 console.log("The response is ", res);
             })
@@ -48,39 +45,42 @@ export default function Classify() {
                         Classify your grade
                     </h5>
 
-                    <RadioList
-                        categories={studyTimeCategories}
-                        title="studytime"
-                        state={studyTime}
-                        setStateFunc={setStudyTime} />
-
-                    <RadioList
-                        categories={freeTimeCategories}
-                        title="freetime"
-                        state={freeTime}
-                        setStateFunc={setFreeTime}
+                    <GradeInput
+                        title="g1"
+                        desc="What is your year 1 grade? (On the scale of 0 to 20)"
+                        max="20"
+                        state={g1}
+                        setStateFunc={setG1}
                     />
-
-                    <RadioList
-                        categories={travelTimeCategories}
-                        title="traveltime"
-                        state={travelTime}
-                        setStateFunc={setTravelTime}
+                    <GradeInput
+                        title="g2"
+                        desc="What is your year 2 grade? (On the scale of 0 to 20)"
+                        max="20"
+                        state={g2}
+                        setStateFunc={setG2}
                     />
-
-                    <RadioList
-                        categories={healthCategories}
-                        title="health"
-                        state={health}
-                        setStateFunc={setHealth}
+                    <GradeInput
+                        title="absences"
+                        desc="How many classes do you miss in the last academic year?"
+                        max="93"
+                        state={absence}
+                        setStateFunc={setAbsence}
                     />
-
                     <RadioList
                         categories={weekendAlcoholCategories}
-                        title="traveltime"
+                        title="walc"
                         state={walc}
                         setStateFunc={setWalc}
+                        desc="How much alcohol do you consume weekly?"
                     />
+                    <RadioList
+                        categories={feduCategories}
+                        title="fedu"
+                        state={fedu}
+                        setStateFunc={setFedu}
+                        desc="What was you father's highest education?"
+                    />
+
                     <button
                         type="submit"
                         className="w-full from-cyan-500 to-blue-500 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 rounded-lg bg-gradient-to-r  px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
@@ -93,16 +93,29 @@ export default function Classify() {
     );
 }
 
+function GradeInput(props: { title: string, desc: string, max: string, state: any, setStateFunc: Function }) {
 
-function RadioList(props: { categories: Array<String>, title: String, state: String, setStateFunc: Function }): JSX.Element {
-    const { categories, title, state, setStateFunc } = props;
+    const { title, desc, max, state, setStateFunc } = props;
+
+    return (
+        <div>
+            <label htmlFor={title} className="mb-2 block text-lg font-medium text-gray-900 dark:text-white">
+                {desc}
+            </label>
+            <input className="rounded w-[100px]" name={title} type="number" min="0" max={max} onChange={(e) => { setStateFunc(e.target.value) }} />
+        </div>
+    )
+}
+
+function RadioList(props: { categories: Array<string>, title: string, state: string, setStateFunc: Function, desc: string }): JSX.Element {
+    const { categories, title, state, setStateFunc, desc } = props;
     return (
         <>
             <div>
                 <label
                     className="mb-2 block text-lg font-medium text-gray-900 dark:text-white"
                 >
-                    How many hours do you study in a week? (excluding class time)
+                    {desc}
                 </label>
                 <fieldset>
                     {categories.map((category, index) => {

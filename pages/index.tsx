@@ -52,13 +52,16 @@ export default function Home() {
             categories={studyTimeCategories}
             title="studytime"
             state={studyTime}
-            setStateFunc={setStudyTime} />
+            setStateFunc={setStudyTime}
+            desc="How many hours do you independently study each week? (Exclude class time)"
+          />
 
           <RadioList
             categories={freeTimeCategories}
             title="freetime"
             state={freeTime}
             setStateFunc={setFreeTime}
+            desc="How many free time do you have after school? Count assignments as free time, consider chores, part time jobs, or private classes"
           />
 
           <RadioList
@@ -66,6 +69,7 @@ export default function Home() {
             title="traveltime"
             state={travelTime}
             setStateFunc={setTravelTime}
+            desc="How long is the travel time from home to school?"
           />
 
           <RadioList
@@ -73,13 +77,15 @@ export default function Home() {
             title="health"
             state={health}
             setStateFunc={setHealth}
+            desc="How healthy is your body?"
           />
 
           <RadioList
             categories={weekendAlcoholCategories}
-            title="traveltime"
+            title="walc"
             state={walc}
             setStateFunc={setWalc}
+            desc="How much alcohol do you consume weekly?"
           />
           <button
             type="submit"
@@ -94,15 +100,16 @@ export default function Home() {
 }
 
 
-function RadioList(props: { categories: Array<String>, title: String, state: String, setStateFunc: Function }): JSX.Element {
-  const { categories, title, state, setStateFunc } = props;
+
+function RadioList(props: { categories: Array<string>, title: string, state: string, setStateFunc: Function, desc: string }): JSX.Element {
+  const { categories, title, state, setStateFunc, desc } = props;
   return (
     <>
       <div>
         <label
           className="mb-2 block text-lg font-medium text-gray-900 dark:text-white"
         >
-          How many hours do you study in a week? (excluding class time)
+          {desc}
         </label>
         <fieldset>
           {categories.map((category, index) => {
