@@ -21,7 +21,7 @@ export default function Classify() {
 
     function submitData(e: FormEvent<HTMLFormElement>) {
         e.preventDefault()
-        axios.post("http://127.0.0.1:8000/classify", { g1, g2, absence, walc, fedu })
+        axios.post("http://127.0.0.1:8080/classify", { g1, g2, absence, walc, fedu })
             .then((res) => {
                 console.log("The response is ", res);
             })
@@ -123,10 +123,11 @@ function RadioList(props: { categories: Array<string>, title: string, state: str
                                     id={title + "-" + (index + 1).toString()}
                                     type="radio"
                                     value={title + "-" + (index + 1).toString()}
-                                    name={`${title}-radio-` + (index + 1).toString()}
+                                    name={`${title}-radio`}
                                     checked={state === (index + 1).toString()}
                                     onChange={() => { setStateFunc((index + 1).toString()) }}
                                     className="h-4 w-4 bg-gray-100 text-blue-600  focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                                    required
                                 />
                                 <label
                                     htmlFor={title + "-radio" + (index + 1).toString()}
