@@ -1,11 +1,9 @@
 "use client";
 
 import Head from "next/head";
-import { Inter } from "@next/font/google";
 import { FormEvent, useState } from "react";
 import axios from "axios";
 
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [studyTime, setStudyTime] = useState("");
@@ -39,14 +37,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="m-auto mt-[10vh] w-full max-w-md rounded-lg border border-gray-200 bg-white bg-gradient-to-r from-cyan-500 to-blue-500 p-4 shadow-md sm:p-6 md:p-8 mb-36 ">
+      <h5 className="text-xl mt-[8vh] text-center font-bold text-black">
+        <span className="underline">Predict</span> your grade
+      </h5>
+      <div className="mx-auto mt-[2vh] w-full max-w-md rounded-lg border border-gray-200 bg-white bg-gradient-to-r from-cyan-500 to-blue-500 p-4 shadow-md sm:p-6 md:p-8 mb-36 ">
         <form
           className="space-y-6"
           onSubmit={(e) => submitData(e)}
         >
-          <h5 className="text-xl text-center font-bold underline text-white">
-            Predict your grade
-          </h5>
 
           <RadioList
             categories={studyTimeCategories}

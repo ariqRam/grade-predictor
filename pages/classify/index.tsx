@@ -35,16 +35,14 @@ export default function Classify() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-
-            <div className="m-auto mt-[10vh] w-full max-w-md rounded-lg border border-gray-200 bg-white bg-gradient-to-r from-pink-500 to-yellow-500 p-4 shadow-md sm:p-6 md:p-8 mb-36 ">
+            <h5 className="text-xl mt-[8vh] text-center font-bold text-black">
+                <span className="underline">Classify</span> your grade
+            </h5>
+            <div className="m-auto mt-[2vh] w-full max-w-md rounded-lg border border-gray-200 bg-white bg-gradient-to-r from-pink-500 to-yellow-500 p-4 shadow-md sm:p-6 md:p-8 mb-36 ">
                 <form
                     className="space-y-6"
                     onSubmit={(e) => submitData(e)}
                 >
-                    <h5 className="text-xl text-center font-bold underline text-white">
-                        Classify your grade
-                    </h5>
-
                     <GradeInput
                         title="g1"
                         desc="What is your year 1 grade? (On the scale of 0 to 20)"
