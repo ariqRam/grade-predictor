@@ -14,7 +14,7 @@ export default function Classify() {
     const [g1, setG1] = useState(0)
     const [g2, setG2] = useState(0)
     const [showModal, setShowModal] = useState(false)
-    const [grade, setGrade] = useState()
+    const [grade, setGrade] = useState("")
 
 
     const weekendAlcoholCategories = ["No alcohol", "1 to 3 shots", "3 to 5 shots", "5 to 8 shots", "More than 8 shots"];
