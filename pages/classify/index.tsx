@@ -21,7 +21,7 @@ export default function Classify() {
 
     function submitData(e: FormEvent<HTMLFormElement>) {
         e.preventDefault()
-        axios.post("http://127.0.0.1:8080/classify", { g1, g2, absence, walc, fedu })
+        axios.post("https://grade-predictor-api.azurewebsites.net/classify", { g1, g2, absence, walc, fedu })
             .then((res) => {
                 console.log("The response is ", res);
             })

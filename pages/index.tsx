@@ -22,7 +22,7 @@ export default function Home() {
 
   function submitData(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    axios.post("https://grade-predictor-api.vercel.app/regress", { studyTime, freeTime, travelTime, health, walc })
+    axios.post("https://grade-predictor-api.azurewebsites.net/regress", { studyTime, freeTime, travelTime, health, walc })
       .then((res) => {
         console.log("The response is ", res);
       })
