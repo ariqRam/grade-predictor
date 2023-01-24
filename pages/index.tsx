@@ -118,10 +118,10 @@ function Modal(props: { setShowModal: Function, grade: string, setGrade: Functio
               <span className="sr-only">Close modal</span>
             </button>
           </div>
-          <div className="flex text-white justify-center py-11">
+          <div className="flex dark:text-white justify-center py-11">
             {
               grade === "" ?
-                <ClipLoader color={"#ffffff"} size={50} loading={showModal} /> :
+                <ClipLoader size={50} loading={showModal} /> :
                 <div className="text-center">
                   <p>Your predicted grade is: </p>
                   <h1 className="text-6xl">{Math.floor(parseInt(grade) / 20 * 100)} %</h1>
