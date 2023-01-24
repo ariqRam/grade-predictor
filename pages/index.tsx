@@ -22,8 +22,9 @@ export default function Home() {
   const weekendAlcoholCategories = ["No alcohol", "1 to 3 shots", "3 to 5 shots", "5 to 8 shots", "More than 8 shots"];
 
 
-  function submitData(e: FormEvent<HTMLFormElement>) {
+  function submitData(e: any) {
     e.preventDefault()
+    setShowModal(true)
     axios.post("https://grade-predictor-api.azurewebsites.net/regress", { studyTime, freeTime, travelTime, health, walc })
       .then((res) => {
         setGrade(res.data['grade']);
@@ -45,7 +46,6 @@ export default function Home() {
       <div className="mx-auto mt-[2vh] w-full max-w-md rounded-lg border border-gray-200 bg-white bg-gradient-to-r from-cyan-500 to-blue-500 p-4 shadow-md sm:p-6 md:p-8 mb-36 ">
         <form
           className="space-y-6"
-          onSubmit={(e) => submitData(e)}
         >
 
           <RadioList
@@ -88,8 +88,9 @@ export default function Home() {
             desc="How much alcohol do you consume weekly?"
           />
           <button
-            type="submit"
-            className="w-full hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 rounded-lg bg-gradient-to-r from-pink-500 to-yellow-500 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+            onClick={(e) => submitData(e)}
+            data-modal-target="small-modal" data-modal-toggle="small-modal"
+            className="w-full from-cyan-500 to-blue-500 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 rounded-lg bg-gradient-to-r  px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
           >
             Submit
           </button>
