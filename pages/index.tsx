@@ -1,8 +1,9 @@
 "use client";
 
 import Head from "next/head";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
+import { ClipLoader } from "react-spinners";
 
 
 export default function Home() {
@@ -64,6 +65,7 @@ export default function Home() {
             desc="How many free time do you have after school? Count assignments as free time, consider chores, part time jobs, or private classes"
           />
 
+
           <RadioList
             categories={travelTimeCategories}
             title="traveltime"
@@ -95,34 +97,43 @@ export default function Home() {
             Submit
           </button>
         </form>
-        {showModal ? <Modal grade={grade} setShowModal={setShowModal} /> : null}
+        {showModal ? <Modal setGrade={setGrade} grade={grade} setShowModal={setShowModal} showModal={showModal} /> : null}
       </div >
     </>
   );
 }
 
-function Modal(props: { setShowModal: Function, grade: String }) {
-  const { setShowModal, grade } = props;
+function Modal(props: { setShowModal: Function, grade: string, setGrade: Function, showModal: boolean }) {
+  const { setShowModal, grade, setGrade, showModal } = props;
   return (
     <div id="small-modal" className="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
       <div className="relative w-full h-full max-w-md md:h-auto mx-auto">
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div className="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-              Small modal
+              Prediction Result
             </h3>
-            <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="small-modal">
+            <button type="button" onClick={(e) => setShowModal(false)} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="small-modal">
               <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
               <span className="sr-only">Close modal</span>
             </button>
           </div>
-          <h1>{grade}</h1>
+          <div className="flex text-white justify-center py-11">
+            {
+              grade === "" ?
+                <ClipLoader color={"#ffffff"} size={50} loading={showModal} /> :
+                <div className="text-center">
+                  <p>Your predicted grade is: </p>
+                  <h1 className="text-6xl">{Math.floor(parseInt(grade) / 20 * 100)} %</h1>
+                </div>
+            }
+          </div>
           <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-            <button onClick={(e) => setShowModal(false)} type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">OK</button>
+            <a href="https://wa.me/601136009570" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Consult with experts</a>
           </div>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 
